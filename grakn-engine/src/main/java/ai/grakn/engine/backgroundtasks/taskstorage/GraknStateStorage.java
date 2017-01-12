@@ -92,7 +92,7 @@ public class GraknStateStorage implements StateStorage {
             return false;
 
         // Existing resource relations to remove
-        final Set<String> resourcesToDettach = new HashSet<String>();
+        final Set<String> resourcesToDettach = new HashSet<>();
         
         // New resources to add
         Var resources = var(TASK_VAR).id(id);
@@ -130,7 +130,7 @@ public class GraknStateStorage implements StateStorage {
         Optional<Boolean> result = attemptCommitToSystemGraph((graph) -> {
             LOG.debug("dettaching: " + resourcesToDettach);
             LOG.debug("inserting " + resources);
-            final Entity task = (Entity)graph.getConcept(id);
+            final Entity task = graph.getConcept(id);
             // Remove relations to any resources we want to currently update 
             resourcesToDettach.forEach(typeName -> {
                 RoleType roleType = graph.getRoleType(Schema.Resource.HAS_RESOURCE_OWNER.getName(typeName));
