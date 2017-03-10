@@ -51,9 +51,6 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.strategy.verification.ReadOnlyStrategy;
-import org.apache.tinkerpop.gremlin.structure.Direction;
-import org.apache.tinkerpop.gremlin.structure.Edge;
-import org.apache.tinkerpop.gremlin.structure.Element;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.javatuples.Pair;
@@ -77,7 +74,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static ai.grakn.graph.internal.RelationImpl.generateNewHash;
-import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.outE;
 
 /**
  * <p>
@@ -657,7 +653,7 @@ public abstract class AbstractGraknGraph<G extends Graph> implements GraknGraph,
         relationToCasting.setProperty(Schema.EdgeProperty.ROLE_TYPE, role.getId().getValue());
         getConceptLog().trackConceptForValidation(relation); //The relation is explicitly tracked so we can look them up without committing
 
-        putShortcutEdges(relation, relation.type(), foundCasting);
+//        putShortcutEdges(relation, relation.type(), foundCasting);
 
         return foundCasting;
     }
@@ -676,6 +672,7 @@ public abstract class AbstractGraknGraph<G extends Graph> implements GraknGraph,
         }
     }
 
+    /*
     private void putShortcutEdges(RelationImpl relation, RelationType relationType, CastingImpl newCasting){
         Map<RoleType, Set<Instance>> roleMap = relation.allRolePlayers();
 
@@ -747,6 +744,7 @@ public abstract class AbstractGraknGraph<G extends Graph> implements GraknGraph,
 
         return hash;
     }
+    */
 
     private RelationImpl getRelation(RelationType relationType, Map<RoleType, Set<Instance>> roleMap){
         String hash = generateNewHash(relationType, roleMap);
@@ -970,6 +968,7 @@ public abstract class AbstractGraknGraph<G extends Graph> implements GraknGraph,
             String relationID = relation.getId().getValue();
 
             //Kill Shortcut Edges
+            /*
             relation.rolePlayers().forEach(instance -> {
                 if(instance != null) {
                     List<Edge> edges = getTinkerTraversal().
@@ -980,6 +979,7 @@ public abstract class AbstractGraknGraph<G extends Graph> implements GraknGraph,
                     edges.forEach(Element::remove);
                 }
             });
+            */
 
             relation.deleteNode();
         }
@@ -1057,7 +1057,7 @@ public abstract class AbstractGraknGraph<G extends Graph> implements GraknGraph,
 
                 //Delete the shortcut edges of the resource we going to delete.
                 //This is so we can copy them uniquely later
-                otherResource.getEdgesOfType(Direction.BOTH, Schema.EdgeLabel.SHORTCUT).forEach(EdgeImpl::delete);
+                // otherResource.getEdgesOfType(Direction.BOTH, Schema.EdgeLabel.SHORTCUT).forEach(EdgeImpl::delete);
 
                 //Cope the actual relation
                 for (Relation otherRelation : otherRelations) {

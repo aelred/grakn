@@ -27,8 +27,6 @@ import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
-import java.util.Optional;
-
 import static ai.grakn.util.Schema.EdgeLabel.SUB;
 
 /**
@@ -40,12 +38,14 @@ public class Fragments {
 
     private Fragments() {}
 
+    /*
     public static Fragment shortcut(
             Optional<TypeName> relationType, Optional<TypeName> roleStart, Optional<TypeName> roleEnd,
             VarName start, VarName end
     ) {
         return new ShortcutFragment(relationType, roleStart, roleEnd, start, end);
     }
+    */
 
     public static Fragment inSub(VarName start, VarName end) {
         return new InSubFragment(start, end);

@@ -26,7 +26,7 @@ import java.util.Optional;
 /**
  * A pair of role type and role player (where the role type may not be present)
  */
-class RelationPlayerImpl implements RelationPlayer {
+public class RelationPlayerImpl implements RelationPlayer {
     private int hashCode = 0;
     private final Optional<VarAdmin> roleType;
     private final VarAdmin rolePlayer;
@@ -35,7 +35,7 @@ class RelationPlayerImpl implements RelationPlayer {
      * A casting without a role type specified
      * @param rolePlayer the role player of the casting
      */
-    RelationPlayerImpl(VarAdmin rolePlayer) {
+    public RelationPlayerImpl(VarAdmin rolePlayer) {
         this.roleType = Optional.empty();
         this.rolePlayer = rolePlayer;
     }
@@ -44,7 +44,7 @@ class RelationPlayerImpl implements RelationPlayer {
      * @param roletype the role type of the casting
      * @param rolePlayer the role player of the casting
      */
-    RelationPlayerImpl(VarAdmin roletype, VarAdmin rolePlayer) {
+    public RelationPlayerImpl(VarAdmin roletype, VarAdmin rolePlayer) {
         this.roleType = Optional.of(roletype);
         this.rolePlayer = rolePlayer;
     }

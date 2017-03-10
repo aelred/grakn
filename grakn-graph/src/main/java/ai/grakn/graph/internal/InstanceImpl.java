@@ -107,7 +107,8 @@ abstract class InstanceImpl<T extends Instance, V extends Type> extends ConceptI
         Set<ConceptId> resourceTypesIds = Arrays.stream(resourceTypes).map(Concept::getId).collect(Collectors.toSet());
 
         Set<Resource<?>> resources = new HashSet<>();
-        this.getOutgoingNeighbours(Schema.EdgeLabel.SHORTCUT).forEach(concept -> {
+        // TODO: Handle self-referential case
+        this.relations().stream().flatMap(rel -> rel.rolePlayers().stream()).forEach(concept -> {
             if(concept.isResource()) {
                 Resource<?> resource = concept.asResource();
                 if(resourceTypesIds.isEmpty() || resourceTypesIds.contains(resource.type().getId())) {

@@ -73,7 +73,8 @@ class ResourceImpl<D> extends InstanceImpl<Resource<D>, ResourceType<D>> impleme
     @Override
     public Collection<Instance> ownerInstances() {
         Set<Instance> owners = new HashSet<>();
-        this.getOutgoingNeighbours(Schema.EdgeLabel.SHORTCUT).forEach(concept -> {
+        // TODO: Handle self-referential case
+        this.relations().stream().flatMap(rel -> rel.rolePlayers().stream()).forEach(concept -> {
             if(!concept.isResource()){
                 owners.add(concept.asInstance());
             }

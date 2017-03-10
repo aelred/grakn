@@ -27,7 +27,6 @@ import ai.grakn.exception.ConceptNotUniqueException;
 import ai.grakn.util.ErrorMessage;
 import ai.grakn.util.Schema;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
-import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 import java.util.Arrays;
@@ -150,6 +149,7 @@ class RelationImpl extends InstanceImpl<Relation, RelationType> implements Relat
             Resource<Object> resource = instance.asResource();
             if(resource.type().isUnique()) {
 
+                // TODO: Don't use shortcut edges here
                 GraphTraversal traversal = getGraknGraph().getTinkerTraversal().
                         hasId(resource.getId().getValue()).
                         out(Schema.EdgeLabel.SHORTCUT.getLabel());
@@ -206,11 +206,13 @@ class RelationImpl extends InstanceImpl<Relation, RelationType> implements Relat
         for (CastingImpl casting: castings) {
             InstanceImpl<?, ?> instance = casting.getRolePlayer();
             if(instance != null) {
+                /*
                 for (EdgeImpl edge : instance.getEdgesOfType(Direction.BOTH, Schema.EdgeLabel.SHORTCUT)) {
                     if(edge.getProperty(Schema.EdgeProperty.RELATION_ID).equals(getId().getValue())){
                         edge.delete();
                     }
                 }
+                */
             }
         }
 

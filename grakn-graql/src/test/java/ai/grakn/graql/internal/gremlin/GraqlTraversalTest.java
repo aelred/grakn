@@ -18,53 +18,9 @@
 
 package ai.grakn.graql.internal.gremlin;
 
-import ai.grakn.concept.ConceptId;
-import ai.grakn.concept.TypeName;
-import ai.grakn.graql.Pattern;
-import ai.grakn.graql.Var;
-import ai.grakn.graql.VarName;
-import ai.grakn.graql.admin.Conjunction;
-import ai.grakn.graql.admin.VarAdmin;
-import ai.grakn.graql.internal.gremlin.fragment.Fragment;
-import ai.grakn.graql.internal.pattern.Patterns;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-import org.junit.Test;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Stream;
-
-import static ai.grakn.graql.Graql.eq;
-import static ai.grakn.graql.Graql.or;
-import static ai.grakn.graql.Graql.var;
-import static ai.grakn.graql.internal.gremlin.fragment.Fragments.distinctCasting;
-import static ai.grakn.graql.internal.gremlin.fragment.Fragments.id;
-import static ai.grakn.graql.internal.gremlin.fragment.Fragments.inCasting;
-import static ai.grakn.graql.internal.gremlin.fragment.Fragments.inHasRole;
-import static ai.grakn.graql.internal.gremlin.fragment.Fragments.inIsa;
-import static ai.grakn.graql.internal.gremlin.fragment.Fragments.inRolePlayer;
-import static ai.grakn.graql.internal.gremlin.fragment.Fragments.name;
-import static ai.grakn.graql.internal.gremlin.fragment.Fragments.outCasting;
-import static ai.grakn.graql.internal.gremlin.fragment.Fragments.outHasRole;
-import static ai.grakn.graql.internal.gremlin.fragment.Fragments.outIsa;
-import static ai.grakn.graql.internal.gremlin.fragment.Fragments.outRolePlayer;
-import static ai.grakn.graql.internal.gremlin.fragment.Fragments.shortcut;
-import static ai.grakn.graql.internal.gremlin.fragment.Fragments.value;
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
-import static org.hamcrest.CoreMatchers.anyOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
 public class GraqlTraversalTest {
 
+    /*
     private static final VarName x = VarName.of("x");
     private static final VarName y = VarName.of("y");
     private static final VarName z = VarName.of("z");
@@ -317,4 +273,5 @@ public class GraqlTraversalTest {
                 condition
         );
     }
+    */
 }
