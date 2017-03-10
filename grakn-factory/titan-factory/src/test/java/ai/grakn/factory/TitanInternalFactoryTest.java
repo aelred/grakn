@@ -28,8 +28,6 @@ import com.thinkaurelius.titan.core.TitanGraph;
 import com.thinkaurelius.titan.core.TitanTransaction;
 import com.thinkaurelius.titan.core.schema.TitanManagement;
 import com.thinkaurelius.titan.graphdb.database.StandardTitanGraph;
-import org.apache.tinkerpop.gremlin.process.traversal.Order;
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.BeforeClass;
@@ -60,7 +58,6 @@ import static org.junit.Assert.assertTrue;
 public class TitanInternalFactoryTest extends TitanTestBase{
     private static TitanGraph sharedGraph;
     private static TitanGraph noIndexGraph;
-    private static TitanGraph indexGraph;
 
     @BeforeClass
     public static void setupClass() throws InterruptedException {
@@ -72,9 +69,6 @@ public class TitanInternalFactoryTest extends TitanTestBase{
         int max = 1000;
         noIndexGraph = getGraph();
         createGraphTestNoIndex("", noIndexGraph, max);
-
-        indexGraph = getGraph();
-        createGraphTestVertexCentricIndex("", indexGraph, max);
     }
 
     @Test
@@ -151,40 +145,6 @@ public class TitanInternalFactoryTest extends TitanTestBase{
     }
 
     @Test
-    public void confirmPagingOfResultsHasCorrectBehaviour() throws InterruptedException {
-        Integer max = 100; // set size of test graph
-        int nTimes = 10; // number of times to run specific traversal
-
-        // Gremlin Indexed Lookup ////////////////////////////////////////////////////
-        Graph graph = getGraph();
-        createGraphTestVertexCentricIndex("rand",graph, max);
-
-        Vertex first = graph.traversal().V().has(Schema.ConceptProperty.VALUE_STRING.name(),String.valueOf(0)).next();
-        List<Object> result, oldResult = new ArrayList<>();
-        for (int i=0; i<nTimes; i++) {
-            // confirm every iteration fetches exactly the same results
-            result = graph.traversal().V(first).
-                    local(__.outE(Schema.EdgeLabel.SHORTCUT.getLabel()).order().by(Schema.EdgeProperty.TO_ROLE_NAME.name(), Order.decr).range(0, 10)).
-                    inV().values(Schema.ConceptProperty.VALUE_STRING.name()).toList();
-            if (i>0) assertEquals(result,oldResult);
-            oldResult = result;
-
-            // confirm paging works
-            List allNodes = graph.traversal().V(first).
-                    local(__.outE(Schema.EdgeLabel.SHORTCUT.getLabel()).order().by(Schema.EdgeProperty.TO_ROLE_NAME.name(), Order.decr)).
-                    inV().values(Schema.ConceptProperty.VALUE_STRING.name()).toList();
-
-            for (int j=0;j<max-1;j++) {
-                List currentNode = graph.traversal().V(first).
-                        local(__.outE(Schema.EdgeLabel.SHORTCUT.getLabel()).order().by(Schema.EdgeProperty.TO_ROLE_NAME.name(), Order.decr).range(j, j + 1)).
-                        inV().values(Schema.ConceptProperty.VALUE_STRING.name()).toList();
-                assertEquals(currentNode.get(0),allNodes.get(j));
-            }
-        }
-
-    }
-
-    @Test
     public void testMultithreadedRetrievalOfGraphs(){
         Set<Future> futures = new HashSet<>();
         ExecutorService pool = Executors.newFixedThreadPool(10);
@@ -257,11 +217,6 @@ public class TitanInternalFactoryTest extends TitanTestBase{
     private static void createGraphTestNoIndex(String indexProp,Graph graph, int max) throws InterruptedException {
         createGraphGeneric(indexProp, graph, max, "ITEM_IDENTIFIER", Schema.EdgeLabel.ISA.getLabel(), "TYPE");
     }
-
-    private static void createGraphTestVertexCentricIndex(String indexProp,Graph graph, int max) throws InterruptedException {
-        createGraphGeneric(indexProp,graph,max, Schema.ConceptProperty.VALUE_STRING.name(), Schema.EdgeLabel.SHORTCUT.getLabel(), Schema.EdgeProperty.TO_ROLE_NAME.name());
-    }
-
     private static void createGraphGeneric(String indexProp,Graph graph,int max,String nodeProp,String edgeLabel,String edgeProp) throws InterruptedException {
         ExecutorService pLoad = Executors.newFixedThreadPool(1000);
         int commitSize = 10;
