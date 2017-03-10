@@ -25,6 +25,8 @@ import java.util.Optional;
 
 /**
  * A pair of role type and role player (where the role type may not be present)
+ *
+ * @author Felix Chapman
  */
 public class RelationPlayerImpl implements RelationPlayer {
     private int hashCode = 0;
