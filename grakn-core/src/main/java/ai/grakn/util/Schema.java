@@ -178,7 +178,6 @@ public final class Schema {
         FROM_ID(String.class),
         FROM_ROLE_NAME(String.class),
         FROM_TYPE_NAME(String.class),
-        SHORTCUT_HASH(String.class),
         REQUIRED(Boolean.class);
 
         private final Class dataType;

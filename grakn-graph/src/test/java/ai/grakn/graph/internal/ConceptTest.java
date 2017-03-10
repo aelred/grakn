@@ -175,13 +175,13 @@ public class ConceptTest extends GraphTestBase{
         Vertex conceptInstance5_Vertex = graknGraph.getTinkerPopGraph().traversal().V(conceptInstance5.getId().getRawValue()).next();
         Vertex conceptInstance6_Vertex = graknGraph.getTinkerPopGraph().traversal().V(conceptInstance6.getId().getRawValue()).next();
 
-        conceptInstance2_Vertex.addEdge(Schema.EdgeLabel.SHORTCUT.getLabel(), conceptInstance1_Vertex);
-        conceptInstance3_Vertex.addEdge(Schema.EdgeLabel.SHORTCUT.getLabel(), conceptInstance1_Vertex);
-        conceptInstance4_Vertex.addEdge(Schema.EdgeLabel.SHORTCUT.getLabel(), conceptInstance1_Vertex);
-        conceptInstance5_Vertex.addEdge(Schema.EdgeLabel.SHORTCUT.getLabel(), conceptInstance1_Vertex);
-        conceptInstance6_Vertex.addEdge(Schema.EdgeLabel.SHORTCUT.getLabel(), conceptInstance1_Vertex);
+        conceptInstance2_Vertex.addEdge(Schema.EdgeLabel.ISA.getLabel(), conceptInstance1_Vertex);
+        conceptInstance3_Vertex.addEdge(Schema.EdgeLabel.ISA.getLabel(), conceptInstance1_Vertex);
+        conceptInstance4_Vertex.addEdge(Schema.EdgeLabel.ISA.getLabel(), conceptInstance1_Vertex);
+        conceptInstance5_Vertex.addEdge(Schema.EdgeLabel.ISA.getLabel(), conceptInstance1_Vertex);
+        conceptInstance6_Vertex.addEdge(Schema.EdgeLabel.ISA.getLabel(), conceptInstance1_Vertex);
 
-        Set<EdgeImpl> edges = conceptInstance1.getEdgesOfType(Direction.IN, Schema.EdgeLabel.SHORTCUT);
+        Set<EdgeImpl> edges = conceptInstance1.getEdgesOfType(Direction.IN, Schema.EdgeLabel.ISA);
 
         assertEquals(5, edges.size());
     }
